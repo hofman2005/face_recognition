@@ -8,7 +8,7 @@ gamma = 5000;
 max_iter = 10;
 
 % Verify the input
-if size(Y,1) ~= size(Yq,1) || size(Y,2) ~= size(Yq,2) || size(Y,2) ~= length(labels)
+if ~isempty(Yq) && (size(Y,1) ~= size(Yq,1) || size(Y,2) ~= size(Yq,2) || size(Y,2) ~= length(labels))
     error('The sizes of inputs do not match.');
 end
 
@@ -25,7 +25,7 @@ D = rand(size(Y,1), max_num_atoms);
 for i = 1 : size(D,2)
     D(:,i) = D(:,i) / norm(D(:,i));
 end
-Dq = rand(size(Y,1), max_num_atoms);
+Dq = rand(size(Yq,1), max_num_atoms);
 for i = 1 : size(Dq,2)
     Dq(:,i) = Dq(:,i) / norm(Dq(:,i));
 end
@@ -36,14 +36,13 @@ for iter = 1 : max_iter
     fprintf('Iteration %d\n', iter);
 
     % Update X
-    X = UpdateX(Y, D, sparsity);
+    X = UpdateX([Y; Yq], [D; Dq], sparsity);
    
     % Update D
     D = UpdateD(Y, D, X);
    
     % Update Dq
-    % Dq = UpdateD(Yq, Dq, Xq);
-    
+    Dq = UpdateD(Yq, Dq, X);
 end
 
 % Update W
@@ -68,6 +67,10 @@ function X = UpdateX(Y, D, sparsity)
     fprintf('Total_res %f\n', total_res);
  
 function D = UpdateD(Y, D, X)
+    if isempty(Y)
+        return;
+    end
+    
     fprintf('Updating atoms .. \n');
     for k = 1 : size(D, 2)
         
