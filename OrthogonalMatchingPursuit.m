@@ -10,8 +10,12 @@ else  % The normal OMP algorithm
     
     for i = 1 : sparsity
         c = res' * D;
-        err = bsxfun(@minus, bsxfun(@times, D, c), res);
-        err = sqrt(sum(err.^2, 1));
+%         err = bsxfun(@minus, bsxfun(@times, D, c), res);
+%         err = sqrt(sum(err.^2, 1));
+        err = bsxfun(@times, D, c);
+        err = bsxfun(@minus, err, res);
+        err = sum(err.^2, 1);
+        err = sqrt(err);
         
         [~, I] = min(err);
         atom_set = cat(2, atom_set, I);

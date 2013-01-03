@@ -1,9 +1,10 @@
-function [D, Dq, X] = LearnMCDict(Y, Yq, labels, max_num_atoms, sparsity)
+function [D, Dq, X, W] = LearnMCDict(Y, Yq, labels, max_num_atoms, sparsity)
 
 % Parameters
 % max_num_atoms = 50;
 % sparsity = 10;
 lambda = 1;
+gamma = 5000;
 max_iter = 10;
 
 % Verify the input
@@ -15,7 +16,7 @@ end
 % Assuming the labels begin with 1
 H = zeros(max(labels), size(Y, 2));
 for i = 1 : length(labels)
-    H(i, labels(i)) = 1;
+    H(labels(i), i) = 1;
 end
 
 % Initalize
@@ -71,14 +72,23 @@ X = zeros(size(D,2), size(Y,2));
 
 % Update X after all atoms are updated
 for iter = 1 : max_iter
+    fprintf('Iteration %d\n', iter);
+    fprintf('Sparse coding ...\n');
     total_res = 0;
-    parfor i = 1 : size(Y,2)
-        [x, res] = OrthogonalMatchingPursuit(Y(:,i), D, sparsity);
-        X(:,i) = x;
-        total_res = total_res + norm(res);
+    if sparsity == size(D, 2)
+        X = pinv(D) * Y;
+        res = Y - D * X;
+        total_res = norm(res);
+    else
+        parfor i = 1 : size(Y,2)
+            [x, res] = OrthogonalMatchingPursuit(Y(:,i), D, sparsity);
+            X(:,i) = x;
+            total_res = total_res + norm(res);
+        end
     end
-%     fprintf('Iteration %d, total_res %f\n', iter, total_res);
- 
+    fprintf('Total_res %f\n', total_res);
+    
+    fprintf('Updating atoms .. \n');
     for k = 1 : size(D, 2)
         
         xk = X(k, :);
@@ -87,8 +97,14 @@ for iter = 1 : max_iter
             continue;
         end
         
-        Dk = D(:, [1:k-1, k+1:end]);
-        Ek = Y - Dk * X([1:k-1, k+1:end], :);
+        sample_index = find(xk~=0);
+        xk = xk(sample_index);
+        atom_index = [1:k-1, k+1:size(D,2)];
+        
+        Dk = D(:, atom_index);
+        Xk = X(atom_index, sample_index);
+        Yk = Y(:, sample_index);
+        Ek = Yk - Dk * Xk;
         
 %         dk = pinv( (xk*xk') * eye(size(Dk,1)) + lambda * (Dk * Dk') ) * Ek * xk';
         dk = 1/(xk*xk') * Ek * xk';
@@ -97,10 +113,14 @@ for iter = 1 : max_iter
         
         D(:, k) = dk;        
     end
+    
+    % Update Dq
+    
+    % Update X
+    
 end
 
-% Update Dq
-
-% Update X
-
 % Update W
+fprintf('Updating W...\n');
+W = H * X' * pinv(X*X' + gamma * eye(size(X,1)));
+
