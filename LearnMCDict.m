@@ -3,9 +3,9 @@ function [D, Dq, X, W] = LearnMCDict(Y, Yq, labels, max_num_atoms, sparsity)
 % Parameters
 % max_num_atoms = 50;
 % sparsity = 10;
-lambda = 1;
+% lambda = 1;
 gamma = 5000;
-max_iter = 10;
+max_iter = 15;
 
 % Verify the input
 if ~isempty(Yq) && (size(Y,1) ~= size(Yq,1) || size(Y,2) ~= size(Yq,2) || size(Y,2) ~= length(labels))
@@ -14,7 +14,7 @@ end
 
 % Build matrix H for supervised training.
 % Assuming the labels begin with 1
-H = zeros(max(labels), size(Y, 2));
+H = zeros(max(labels), length(labels));
 for i = 1 : length(labels)
     H(labels(i), i) = 1;
 end
@@ -43,6 +43,12 @@ for iter = 1 : max_iter
    
     % Update Dq
     Dq = UpdateD(Yq, Dq, X);
+    
+    % Normalize
+    D_ = [D; Dq];
+    for i = 1 : size(D_, 2)
+        D_(:,i) = D_(:,i) / norm(D_(:,i));
+    end
 end
 
 % Update W
@@ -67,6 +73,8 @@ function X = UpdateX(Y, D, sparsity)
     fprintf('Total_res %f\n', total_res);
  
 function D = UpdateD(Y, D, X)
+    lambda = 1;
+    
     if isempty(Y)
         return;
     end

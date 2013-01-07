@@ -242,25 +242,25 @@ clear temp;
 % clear temp;
 
 %% INFace Toolbox
-disp('Preprocessing with INFace Toolbox ...');
-siz1 = size(img_train,1);
-siz2 = size(img_train,2);
-siz = 128;
-parfor i = 1 : size(img_train,3)
-    temp = img_train(:,:,i);
-    temp = wavelet_denoising(imresize(temp, [siz siz]),'haar');
-    img_train(:,:,i) = imresize(temp, [siz1, siz2]);
-end
-parfor i = 1 : size(img_gallery,3)
-    temp = img_gallery(:,:,i);
-    temp = wavelet_denoising(imresize(temp, [siz siz]),'haar');
-    img_gallery(:,:,i) = imresize(temp, [siz1, siz2]);
-end
-parfor i = 1 : size(img_probe,3)
-    temp = img_probe(:,:,i);
-    temp = wavelet_denoising(imresize(temp, [siz siz]),'haar');    
-    img_probe(:,:,i) =imresize(temp, [siz1, siz2]);
-end
+% disp('Preprocessing with INFace Toolbox ...');
+% siz1 = size(img_train,1);
+% siz2 = size(img_train,2);
+% siz = 128;
+% parfor i = 1 : size(img_train,3)
+%     temp = img_train(:,:,i);
+%     temp = wavelet_denoising(imresize(temp, [siz siz]),'haar');
+%     img_train(:,:,i) = imresize(temp, [siz1, siz2]);
+% end
+% parfor i = 1 : size(img_gallery,3)
+%     temp = img_gallery(:,:,i);
+%     temp = wavelet_denoising(imresize(temp, [siz siz]),'haar');
+%     img_gallery(:,:,i) = imresize(temp, [siz1, siz2]);
+% end
+% parfor i = 1 : size(img_probe,3)
+%     temp = img_probe(:,:,i);
+%     temp = wavelet_denoising(imresize(temp, [siz siz]),'haar');    
+%     img_probe(:,:,i) =imresize(temp, [siz1, siz2]);
+% end
 
 %% Mirror
 disp('Mirror images ...');
@@ -283,21 +283,21 @@ index_gallery = [index_gallery; index_gallery];
 clear temp;
 
 %% Down sample
-% new_size = [24 21];
-% fprintf('Downsampling to [%d,%d]...\n', new_size(1), new_size(2));
-% temp = zeros(new_size(1), new_size(2), size(img_train,3));
-% parfor i = 1 : size(img_train, 3)
-%     temp(:,:,i) = imresize(img_train(:,:,i), new_size);
-% end
-% img_train = temp;
-% temp = zeros(new_size(1), new_size(2), size(img_gallery, 3));
-% parfor i = 1 : size(img_gallery, 3)
-%     temp(:,:,i) = imresize(img_gallery(:,:,i), new_size);
-% end
-% img_gallery = temp;
-% temp = zeros(new_size(1), new_size(2), size(img_probe, 3));
-% parfor i = 1 : size(img_probe, 3)
-%     temp(:,:,i) = imresize(img_probe(:,:,i), new_size);
-% end
-% img_probe = temp;
-% clear temp;
+new_size = [24 21];
+fprintf('Downsampling to [%d,%d]...\n', new_size(1), new_size(2));
+temp = zeros(new_size(1), new_size(2), size(img_train,3));
+parfor i = 1 : size(img_train, 3)
+    temp(:,:,i) = imresize(img_train(:,:,i), new_size);
+end
+img_train = temp;
+temp = zeros(new_size(1), new_size(2), size(img_gallery, 3));
+parfor i = 1 : size(img_gallery, 3)
+    temp(:,:,i) = imresize(img_gallery(:,:,i), new_size);
+end
+img_gallery = temp;
+temp = zeros(new_size(1), new_size(2), size(img_probe, 3));
+parfor i = 1 : size(img_probe, 3)
+    temp(:,:,i) = imresize(img_probe(:,:,i), new_size);
+end
+img_probe = temp;
+clear temp;
