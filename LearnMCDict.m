@@ -5,7 +5,7 @@ function [D, Dq, X, W] = LearnMCDict(Y, Yq, labels, max_num_atoms, sparsity)
 % sparsity = 10;
 % lambda = 1;
 gamma = 5000;
-max_iter = 15;
+max_iter = 10;
 
 % Verify the input
 if ~isempty(Yq) && (size(Y,1) ~= size(Yq,1) || size(Y,2) ~= size(Yq,2) || size(Y,2) ~= length(labels))

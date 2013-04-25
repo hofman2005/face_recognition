@@ -7,7 +7,7 @@ dataset_prefix = '/home/taowu/work/data/frgc-ver2/';
 
 prefix = sprintf('%s/frgc_images/', dataset_prefix);
 
-siz = [48, 48];
+siz = [150, 130];
 
 % prefix1 = '/fs/hidface/data/FRGC/1.0/BEE_DIST/data/norm/';
 % prefix2 = '/fs/frgc-ver2/FRGC-2.0/BEE_DIST/data/norm/';

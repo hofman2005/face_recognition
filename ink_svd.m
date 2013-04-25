@@ -8,8 +8,9 @@ D(:, unique(J)) = [];
 
 D_new = D;
 mu = mutual_coherence(D);
-mu_target = 1 / sqrt( size(D,1) );
+mu_target = 1 / sqrt( size(D,1) ) * 20;
 
+iter = 0;
 while mu > mu_target + 1e-5
     % Partition
     E = partition(D_new, mu_target);
@@ -21,7 +22,12 @@ while mu > mu_target + 1e-5
     end
     
     mu = mutual_coherence(D_new);
-    fprintf('mu: %f\r', mu);
+    
+    if mod(iter, 100)==0
+        fprintf('mu: %f, target:%f\r', mu, mu_target);
+    end
+    
+    iter = iter + 1;
 end
 
 
