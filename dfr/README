@@ -1,0 +1,32 @@
+DFR code
+
+Author:         Tao Wu
+Email:          taowu@umiacs.umd.edu
+Last update:    11/12/2010
+======================================
+
+Usage:
+======
+
+Training:
+Dict = mp_train(img_gallery, index_gallery, dictsize, iternum)
+
+Input
+img_gallery:    Each column is a training sample
+index_gallery:  Class labels of training samples. Must be consecutive positive integers.
+dictsize:       Dictionary size of each class. (optional)
+iternum:        Number of iterations. (optional)
+
+Output
+Dict:           Trained dictionaries
+
+Testing:
+[label, dist] = mp_test(img, Dict)
+
+Input
+img:        Each column is a testing samle
+Dict:       Trained dictionaries
+
+Output
+label:      Class label of testing samples
+dist:       Distance from testing samples to classes.

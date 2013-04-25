@@ -1,0 +1,12 @@
+[img_train, index_train, img_gallery, index_gallery, img_probe, index_probe, id_hash_table] = FRGC_Loader_local(1, 1);
+save('FRGC1_Exp1_Ori_48x48', 'img_train', 'index_train', 'img_gallery', 'index_gallery', 'img_probe', 'index_probe', 'id_hash_table', 'mask');
+[img_train, index_train, img_gallery, index_gallery, img_probe, index_probe, id_hash_table] = FRGC_Loader_local(1, 2, id_hash_table);
+save('FRGC1_Exp2_Ori_48x48', 'img_train', 'index_train', 'img_gallery', 'index_gallery', 'img_probe', 'index_probe', 'id_hash_table', 'mask');
+[img_train, index_train, img_gallery, index_gallery, img_probe, index_probe, id_hash_table] = FRGC_Loader_local(1, 4, id_hash_table);
+save('FRGC1_Exp4_Ori_48x48', 'img_train', 'index_train', 'img_gallery', 'index_gallery', 'img_probe', 'index_probe', 'id_hash_table', 'mask');
+[img_train, index_train, img_gallery, index_gallery, img_probe, index_probe, id_hash_table] = FRGC_Loader_local(2, 1, id_hash_table);
+save('FRGC2_Exp1_Ori_48x48', 'img_train', 'index_train', 'img_gallery', 'index_gallery', 'img_probe', 'index_probe', 'id_hash_table', 'mask');
+[img_train, index_train, img_gallery, index_gallery, img_probe, index_probe, id_hash_table] = FRGC_Loader_local(2, 2, id_hash_table);
+save('FRGC2_Exp2_Ori_48x48', 'img_train', 'index_train', 'img_gallery', 'index_gallery', 'img_probe', 'index_probe', 'id_hash_table', 'mask');
+[img_train, index_train, img_gallery, index_gallery, img_probe, index_probe, id_hash_table] = FRGC_Loader_local(2, 4, id_hash_table);
+save('FRGC2_Exp4_Ori_48x48', 'img_train', 'index_train', 'img_gallery', 'index_gallery', 'img_probe', 'index_probe', 'id_hash_table', 'mask');
